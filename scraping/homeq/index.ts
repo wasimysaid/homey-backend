@@ -71,9 +71,8 @@ export class HomeQScraper implements Scraper<HomeQResult> {
     }
     
     async fetch(url: URL | RequestInfo, init?: RequestInit): Promise<Response> {
-        const proxySuffix = ['-country-se', '-country-us', '-country-dk', '-country-no'];
-        const suffix = proxySuffix[Math.floor(Math.random() * proxySuffix.length)];
-        const proxyUrl = `http://127.0.0.1:8080`;
+        const proxyUrl = process.env.HOMEQ_PROXY_URL;
+        if (!proxyUrl) throw new Error('HOMEQ_PROXY_URL is required');
         
         
         return fetch(url, {

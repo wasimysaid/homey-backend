@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,7 +18,9 @@ const listings = jsonData.results;
 const insertListings = async () => {
     try {
         // Connect to MongoDB
-        await mongoose.connect('mongodb://127.0.0.1:27017/homey');
+        const mongoUri = process.env.MONGODB_URI;
+        if (!mongoUri) throw new Error('MONGODB_URI is required');
+        await mongoose.connect(mongoUri);
 
         // Iterate over each listing in the array and insert it
         for (const listingData of listings) {
